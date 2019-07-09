@@ -1,0 +1,8 @@
+On the ACL18 dataset:
+
+LSTM:
+    python pred_lstm.py -a 0 -l 10 -u 32 -l2 10
+ALSTM:
+    python pred_lstm.py -l 5 -u 4 -l2 1
+Adv-ALSTM:
+    python pred_lstm.py -l 5 -u 4 -l2 1 -v 1 -rl 1 -q ./saved_model/acl18_alstm/exp -la 0.01 -le 0.05
