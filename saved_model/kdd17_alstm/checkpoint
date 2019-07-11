@@ -1,0 +1,2 @@
+model_checkpoint_path: "/home/ffl/nus/MM/fintech/tweet_stock/exp/kdd/att_lstm_rep1/r3/model"
+all_model_checkpoint_paths: "/home/ffl/nus/MM/fintech/tweet_stock/exp/kdd/att_lstm_rep1/r3/model"

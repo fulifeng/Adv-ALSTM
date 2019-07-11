@@ -1,8 +1,17 @@
 On the ACL18 dataset:
 
 LSTM:
-    python pred_lstm.py -a 0 -l 10 -u 32 -l2 10
+    python pred_lstm.py -a 0 -l 10 -u 32 -l2 10 -f 1
 ALSTM:
-    python pred_lstm.py -l 5 -u 4 -l2 1
+    python pred_lstm.py -l 5 -u 4 -l2 1 -f 1
 Adv-ALSTM:
     python pred_lstm.py -l 5 -u 4 -l2 1 -v 1 -rl 1 -q ./saved_model/acl18_alstm/exp -la 0.01 -le 0.05
+
+On the KDD17 dataset:
+
+LSTM:
+    python pred_lstm.py -p ./data/kdd17/ourpped/ -l 5 -u 4 -l2 0.001 -a 0 -f 1
+ALSTM:
+    python pred_lstm.py -p ./data/kdd17/ourpped/ -l 15 -u 16 -l2 0.001 -f 1
+Adv-ALSTM:
+    python pred_lstm.py -p ./data/kdd17/ourpped/ -l 15 -u 16 -l2 0.001 -v 1 -rl 1 -q ./saved_model/kdd17_alstm/model -la 0.05 -le 0.001 -f 1

@@ -69,7 +69,6 @@ class AWLSTM:
             self.data_path,
             tra_date, val_date, tes_date, seq=self.paras['seq']
         )
-        # print(self.tra_gt.sum(), self.val_gt.sum(), self.tes_gt.sum())
         self.fea_dim = self.tra_pv.shape[2]
 
     def get_batch(self, sta_ind=None):
@@ -133,7 +132,7 @@ class AWLSTM:
         with tf.device(device_name):
             tf.reset_default_graph()
             if self.fix_init:
-                tf.set_random_seed(0)
+                tf.set_random_seed(123456)
 
             self.gt_var = tf.placeholder(tf.float32, [None, 1])
             self.pv_var = tf.placeholder(
@@ -518,13 +517,7 @@ class AWLSTM:
                      self.optimizer),
                     feed_dict
                 )
-                # cur_obj, cur_loss, cur_l2, cur_al, batch_out = sess.run(
-                #     (self.obj_func, self.loss,
-                #      self.l2_norm, self.adv_loss,
-                #      self.optimizer),
-                #     feed_dict
-                # )
-                # print(cur_obj)
+
                 tra_loss += cur_loss
                 tra_obj += cur_obj
                 l2 += cur_l2
@@ -554,7 +547,6 @@ class AWLSTM:
                     l2 += cur_l2
                     tra_obj += cur_obj
                     tra_acc += cur_tra_perf['acc']
-                    # print('\t\t', cur_loss)
                 print('Training:', tra_obj / bat_count, tra_loss / bat_count,
                       l2 / bat_count, '\tTrain per:', tra_acc / bat_count)
 
@@ -603,8 +595,6 @@ class AWLSTM:
         return best_valid_pred, best_test_pred
 
     def update_model(self, parameters):
-        # print('expected parameter:', parameters)
-        # print('origin parameter:', self.parameters)
         data_update = False
         if not parameters['seq'] == self.paras['seq']:
             data_update = True
@@ -674,13 +664,17 @@ if __name__ == '__main__':
         'lr': float(args.learning_rate)
     }
 
-    tra_date = '2014-01-02'
-    val_date = '2015-08-03'
-    tes_date = '2015-10-01'
-
-    # tra_date = '2007-01-03'
-    # val_date = '2015-01-02'
-    # tes_date = '2016-01-04'
+    if 'stocknet' in args.path:
+        tra_date = '2014-01-02'
+        val_date = '2015-08-03'
+        tes_date = '2015-10-01'
+    elif 'kdd17' in args.path:
+        tra_date = '2007-01-03'
+        val_date = '2015-01-02'
+        tes_date = '2016-01-04'
+    else:
+        print('unexpected path: %s' % args.path)
+        exit(0)
 
     pure_LSTM = AWLSTM(
         data_path=args.path,
